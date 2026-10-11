@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DETEKTIF BAHASA ARAB — محقق اللغة العربية</title>
+    <!-- Tailwind CSS for modern responsive design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        detective: {
+                            dark: '#0f172a',
+                            card: '#1e293b',
+                            accent: '#f59e0b',
+                            gold: '#fbbf24',
+                            neon: '#06b6d4',
+                            danger: '#ef4444',
+                            success: '#10b981'
+                        }
+                    },
+                    fontFamily: {
+                        arabic: ['Amiri', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
+            color: #f8fafc;
+        }
+
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            direction: rtl;
+            unicode-bidi: isolate;
+            line-height: 1.8;
+        }
+
+        /* Glassmorphism effects */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .gold-border {
+            border: 2px solid #f59e0b;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Animations */
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.8); }
+        }
+
+        .pulse-gold {
+            animation: pulse-gold 2s infinite;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #f59e0b;
+            border-radius: 4px;
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen justify-between p-2 sm:p-4 md:p-6 select-none">
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Header Bar -->
+    <header class="w-full max-w-5xl mx-auto glass-panel rounded-2xl p-4 mb-4 flex items-center justify-between gold-border">
+        <div class="flex items-center space-x-3 space-x-reverse">
+            <div class="bg-amber-500/20 p-3 rounded-xl border border-amber-500/40 text-amber-400">
+                <i class="fa-solid fa-user-secret text-2xl sm:text-3xl"></i>
+            </div>
+            <div>
+                <h1 class="text-xl sm:text-2xl font-black text-amber-400 tracking-wide">DETEKTIF BAHASA ARAB</h1>
+                <p class="text-xs sm:text-sm text-slate-400 font-semibold arabic-text">مُحَقِّقُ اللُّغَةِ العَرَبِيَّةِ — TINGKATAN 3</p>
+            </div>
+        </div>
+        <div class="hidden sm:flex items-center gap-2 bg-slate-800/80 px-4 py-2 rounded-xl border border-slate-700">
+            <i class="fa-solid fa-award text-amber-400"></i>
+            <span class="text-xs text-slate-300 font-bold">KPM KSSM Curriculum</span>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-5xl mx-auto flex-1 flex flex-col justify-center items-center">
+
+        <!-- SCREEN 1: START & NAME INPUT -->
+        <section id="screen-start" class="w-full glass-panel rounded-3xl p-6 sm:p-10 text-center flex flex-col items-center max-w-2xl border border-amber-500/30 shadow-2xl transition-all duration-300">
+            <div class="w-24 h-24 bg-gradient-to-tr from-amber-500 to-yellow-300 rounded-full flex items-center justify-center shadow-lg mb-6 ring-8 ring-amber-500/20 pulse-gold">
+                <i class="fa-solid fa-magnifying-glass text-4xl text-slate-900"></i>
+            </div>
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-white mb-2">MISI PENGINSPEKSIAN NAHU</h2>
+            <p class="text-slate-300 text-sm sm:text-base mb-6 max-w-md">Sertai kes penyiasatan tatabahasa Arab! Cari kesalahan, i'rabkan kalimah, dan jadilah <b>Detektif Genius</b> Bahasa Arab.</p>
+
+            <div class="w-full max-w-md space-y-4 mb-8">
+                <div class="text-left">
+                    <label for="player-name" class="block text-xs font-bold text-amber-400 uppercase tracking-wider mb-2">Nama Detektif / Kumpulan:</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-id-badge absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+                        <input type="text" id="player-name" placeholder="Masukkan nama anda..." class="w-full bg-slate-900/90 border-2 border-slate-700 focus:border-amber-400 text-white rounded-xl py-3 pl-12 pr-4 outline-none font-semibold transition-all">
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="startGameModeSelection()" class="w-full max-w-md bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-black py-4 px-8 rounded-xl shadow-lg transform hover:-translate-y-1 active:translate-y-0 transition-all flex items-center justify-center space-x-2 text-lg">
+                <span>MULA MISI PENYIASATAN</span>
+                <i class="fa-solid fa-arrow-right text-xl"></i>
+            </button>
+        </section>
+
+        <!-- SCREEN 2: GAME MODE SELECTION -->
+        <section id="screen-mode" class="w-full glass-panel rounded-3xl p-6 sm:p-8 hidden border border-amber-500/30">
+            <div class="text-center mb-8">
+                <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-4 py-1.5 rounded-full border border-amber-500/40 uppercase tracking-widest">PILIH MOD PENYIASATAN</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-2">Pilih Cabaran Tatabahasa Anda</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+                <!-- Mode 1 -->
+                <button onclick="selectMode('mode1')" class="group p-5 bg-slate-800/80 hover:bg-slate-800 border-2 border-slate-700 hover:border-amber-400 rounded-2xl text-left transition-all flex flex-col justify-between relative overflow-hidden">
+                    <div class="flex items-start justify-between w-full mb-3">
+                        <div class="p-3 bg-red-500/20 text-red-400 rounded-xl">
+                            <i class="fa-solid fa-bug text-2xl"></i>
+                        </div>
+                        <span class="arabic-text text-xl font-bold text-amber-400">1. اكتشف الخطأ</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">Cari Kesalahan</h3>
+                        <p class="text-xs text-slate-400 mt-1">Kesan bahagian tatabahasa yang salah dalam ayat Bahasa Arab yang diberikan.</p>
+                    </div>
+                </button>
+
+                <!-- Mode 2 -->
+                <button onclick="selectMode('mode2')" class="group p-5 bg-slate-800/80 hover:bg-slate-800 border-2 border-slate-700 hover:border-amber-400 rounded-2xl text-left transition-all flex flex-col justify-between relative overflow-hidden">
+                    <div class="flex items-start justify-between w-full mb-3">
+                        <div class="p-3 bg-emerald-500/20 text-emerald-400 rounded-xl">
+                            <i class="fa-solid fa-wand-magic-sparkles text-2xl"></i>
+                        </div>
+                        <span class="arabic-text text-xl font-bold text-amber-400">2. صحّح الجملة</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">Betulkan Ayat</h3>
+                        <p class="text-xs text-slate-400 mt-1">Pilih susunan ayat yang tepat mengikut kaedah Nahu & Soraf Tingkatan 3.</p>
+                    </div>
+                </button>
+
+                <!-- Mode 3 -->
+                <button onclick="selectMode('mode3')" class="group p-5 bg-slate-800/80 hover:bg-slate-800 border-2 border-slate-700 hover:border-amber-400 rounded-2xl text-left transition-all flex flex-col justify-between relative overflow-hidden">
+                    <div class="flex items-start justify-between w-full mb-3">
+                        <div class="p-3 bg-cyan-500/20 text-cyan-400 rounded-xl">
+                            <i class="fa-solid fa-scale-balanced text-2xl"></i>
+                        </div>
+                        <span class="arabic-text text-xl font-bold text-amber-400">3. تحدّي الإعراب</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">Cabaran I'rab</h3>
+                        <p class="text-xs text-slate-400 mt-1">Tentukan kedudukan i'rab (مرفوع، منصوب، مجرور، مجزوم) dan tandanya.</p>
+                    </div>
+                </button>
+
+                <!-- Mode 4 -->
+                <button onclick="selectMode('mode4')" class="group p-5 bg-slate-800/80 hover:bg-slate-800 border-2 border-slate-700 hover:border-amber-400 rounded-2xl text-left transition-all flex flex-col justify-between relative overflow-hidden">
+                    <div class="flex items-start justify-between w-full mb-3">
+                        <div class="p-3 bg-purple-500/20 text-purple-400 rounded-xl">
+                            <i class="fa-solid fa-crown text-2xl"></i>
+                        </div>
+                        <span class="arabic-text text-xl font-bold text-amber-400">4. المحقق العبقري</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">Detektif Genius (Semua Soalan)</h3>
+                        <p class="text-xs text-slate-400 mt-1">Uji kemahiran penuh merangkumi 30 soalan pelbagai tahap kesukaran!</p>
+                    </div>
+                </button>
+            </div>
+
+            <div class="mt-8 text-center">
+                <button onclick="showScreen('screen-start')" class="text-slate-400 hover:text-white font-semibold text-sm inline-flex items-center space-x-2">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Kembali ke Skrin Utama</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: GAMEPLAY INTERFACE -->
+        <section id="screen-game" class="w-full glass-panel rounded-3xl p-4 sm:p-6 hidden flex-col border border-amber-500/30">
+            <!-- HUD / Status Bar -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6 bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
+                <!-- Detective Info -->
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-user-ninja text-amber-400 text-lg"></i>
+                    <div class="truncate">
+                        <span class="block text-[10px] text-slate-400 font-bold uppercase">Detektif</span>
+                        <span id="hud-name" class="font-extrabold text-xs sm:text-sm text-white truncate">Player</span>
+                    </div>
+                </div>
+
+                <!-- Lives -->
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-heart text-red-500 text-lg"></i>
+                    <div>
+                        <span class="block text-[10px] text-slate-400 font-bold uppercase">Nyawa</span>
+                        <div id="hud-lives" class="flex text-red-500 text-xs sm:text-sm space-x-1">
+                            <i class="fa-solid fa-heart"></i>
+                            <i class="fa-solid fa-heart"></i>
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timer -->
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-stopwatch text-cyan-400 text-lg"></i>
+                    <div>
+                        <span class="block text-[10px] text-slate-400 font-bold uppercase">Masa</span>
+                        <span id="hud-timer" class="font-black text-sm sm:text-base text-cyan-400">25s</span>
+                    </div>
+                </div>
+
+                <!-- Score -->
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-star text-yellow-400 text-lg"></i>
+                    <div>
+                        <span class="block text-[10px] text-slate-400 font-bold uppercase">Skor</span>
+                        <span id="hud-score" class="font-black text-sm sm:text-base text-yellow-400">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-800 h-2 rounded-full mb-6 overflow-hidden">
+                <div id="game-progress" class="bg-gradient-to-r from-amber-500 to-yellow-400 h-full w-0 transition-all duration-300"></div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-slate-900/90 rounded-2xl p-6 mb-6 border border-slate-700/80 text-center relative shadow-inner">
+                <div class="flex justify-between items-center mb-3">
+                    <span id="question-number" class="text-xs font-bold bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full border border-amber-500/30">Soalan 1 / 30</span>
+                    <span id="question-level" class="text-xs font-bold bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full border border-purple-500/30">Tahap Sederhana</span>
+                </div>
+
+                <p id="question-prompt" class="text-slate-300 text-sm font-semibold mb-4">Kenal pasti kesalahan tatabahasa dalam ayat di bawah:</p>
+                
+                <!-- Main Arabic Question Text -->
+                <div id="question-arabic" class="arabic-text text-2xl sm:text-4xl font-bold text-white py-4 px-2 leading-relaxed bg-slate-800/50 rounded-xl border border-slate-700/50 my-2">
+                    إنَّ الطالبُ مجتهدٌ فِي دِرَاسَتِهِ.
+                </div>
+            </div>
+
+            <!-- Answer Options Grid -->
+            <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <!-- Options injected via JS -->
+            </div>
+        </section>
+
+        <!-- MODAL FEEDBACK POPUP -->
+        <div id="feedback-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+            <div class="glass-panel w-full max-w-lg rounded-3xl p-6 sm:p-8 text-center border-2 border-amber-500/50 shadow-2xl relative animate-bounce-short">
+                <!-- Icon Status -->
+                <div id="feedback-icon-container" class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                    <i id="feedback-icon" class="fa-solid fa-check"></i>
+                </div>
+
+                <h3 id="feedback-title" class="text-2xl font-black mb-1">TEPAT SEKALI!</h3>
+                <p id="feedback-subtitle" class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Siasatan Berjaya</p>
+
+                <!-- Full Correct Sentence Box -->
+                <div class="bg-slate-900/90 rounded-2xl p-4 mb-4 border border-slate-800 text-right dir-rtl">
+                    <span class="block text-xs font-bold text-amber-400 mb-1 text-left">AYAT PEMBETULAN LENGKAP:</span>
+                    <div id="feedback-corrected" class="arabic-text text-xl font-bold text-emerald-400 leading-relaxed text-center">
+                        إنَّ الطالبَ مجتهدٌ فِي دِرَاسَتِهِ.
+                    </div>
+                </div>
+
+                <!-- Grammar Explanation Box -->
+                <div class="bg-slate-900/90 rounded-2xl p-4 mb-6 border border-slate-800 text-left">
+                    <span class="block text-xs font-bold text-cyan-400 mb-1 uppercase"><i class="fa-solid fa-circle-info mr-1"></i> Penjelasan Tatabahasa (Nahu / Soraf):</span>
+                    <p id="feedback-explanation" class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Perkataan 'الطالبَ' hendaklah diisbatkan dengan baris Fathah (منصوب) kerana ia merupakan Isim Inna (اسم إنَّ).
+                    </p>
+                </div>
+
+                <button onclick="nextQuestion()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-black py-3.5 px-6 rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2">
+                    <span>SOALAN SETERUSNYA</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: FINAL RESULTS -->
+        <section id="screen-result" class="w-full glass-panel rounded-3xl p-6 sm:p-10 text-center hidden flex-col items-center max-w-2xl border border-amber-500/40">
+            <div id="badge-icon-bg" class="w-24 h-24 bg-gradient-to-tr from-amber-500 to-yellow-300 rounded-full flex items-center justify-center shadow-xl mb-4 ring-8 ring-amber-500/20">
+                <i id="badge-icon" class="fa-solid fa-award text-4xl text-slate-950"></i>
+            </div>
+
+            <span class="text-xs font-bold text-amber-400 uppercase tracking-widest bg-amber-500/20 px-4 py-1 rounded-full mb-2">LENCANA PENCAPAIAN DITERIMA</span>
+            <h2 id="result-badge-title" class="text-2xl sm:text-3xl font-black text-white mb-1 arabic-text">خبير النحو (Pakar Nahu)</h2>
+            <p id="result-player-name" class="text-slate-300 text-sm mb-6">Tahniah, Detektif <span class="font-bold text-amber-400">Ahmad</span>!</p>
+
+            <!-- Score Stats Grid -->
+            <div class="grid grid-cols-3 gap-3 w-full max-w-md mb-8">
+                <div class="bg-slate-900/90 p-3 sm:p-4 rounded-2xl border border-slate-800">
+                    <span class="block text-[10px] sm:text-xs text-slate-400 font-bold uppercase">Jumlah Skor</span>
+                    <span id="result-score" class="text-lg sm:text-2xl font-black text-amber-400">1250</span>
+                </div>
+                <div class="bg-slate-900/90 p-3 sm:p-4 rounded-2xl border border-slate-800">
+                    <span class="block text-[10px] sm:text-xs text-slate-400 font-bold uppercase">Ketepatan</span>
+                    <span id="result-accuracy" class="text-lg sm:text-2xl font-black text-emerald-400">85%</span>
+                </div>
+                <div class="bg-slate-900/90 p-3 sm:p-4 rounded-2xl border border-slate-800">
+                    <span class="block text-[10px] sm:text-xs text-slate-400 font-bold uppercase">Betul / Total</span>
+                    <span id="result-correct" class="text-lg sm:text-2xl font-black text-cyan-400">25/30</span>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 w-full max-w-md">
+                <button onclick="restartGame()" class="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-3.5 px-6 rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>MAIN LAGI</span>
+                </button>
+                <button onclick="showScreen('screen-mode')" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-black py-3.5 px-6 rounded-xl border border-slate-700 transition-all flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-list"></i>
+                    <span>PILIH MOD</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full max-w-5xl mx-auto text-center py-4 text-xs text-slate-500 font-medium">
+        Permainan Pendidikan Bahasa Arab Tingkatan 3 &bull; Rekabentuk PdP Interaktif Sekolah Menengah
+    </footer>
+
+    <script>
+        /* ==========================================================================
+           QUESTION BANK (30 UNIQ QUESTIONS FOR TINGKATAN 3 ARABIC KSSM)
+           ========================================================================== */
+        const questionBank = [
+            // --- TAHAP SEDERHANA (10 Soalan) ---
+            {
+                id: 1,
+                level: "Sederhana",
+                mode: "mode1",
+                prompt: "Cari kesalahan tatabahasa (Nahu) dalam ayat di bawah:",
+                arabic: "إنَّ الطالبُ مجتهدٌ فِي المَدْرَسَةِ.",
+                options: [
+                    "إنَّ",
+                    "الطالبُ",
+                    "مجتهدٌ",
+                    "فِي"
+                ],
+                correctIndex: 1,
+                correctedArabic: "إنَّ الطالبَ مجتهدٌ فِي المَدْرَسَةِ.",
+                explanation: "'الطالبَ' mestilah dibaca Fathah (منصوب) kerana ia berperanan sebagai Isim Inna (اسم إنَّ)."
+            },
+            {
+                id: 2,
+                level: "Sederhana",
+                mode: "mode2",
+                prompt: "Pilih ayat yang paling tepat mengikut kaedah penafian الفعل المضارع:",
+                arabic: "Kemungkinan penafian bagi ayat: (يَذْهَبُ أَحْمَدُ)",
+                options: [
+                    "لَنْ يَذْهَبُ أَحْمَدُ إِلَى السُّوقِ.",
+                    "لَنْ يَذْهَبَ أَحْمَدُ إِلَى السُّوقِ.",
+                    "لَنْ يَذْهَبِ أَحْمَدُ إِلَى السُّوقِ.",
+                    "لَنْ يَذْهَبٌ أَحْمَدُ إِلَى السُّوقِ."
+                ],
+                correctIndex: 1,
+                correctedArabic: "لَنْ يَذْهَبَ أَحْمَدُ إِلَى السُّوقِ.",
+                explanation: "Huruf 'لَنْ' merupakan kata nasab (أداة النصب) yang menasabkan Fi'il Mudhari' dengan baris Fathah (يَذْهَبَ)."
+            },
+            {
+                id: 3,
+                level: "Sederhana",
+                mode: "mode3",
+                prompt: "Apakah kedudukan I'rab bagi perkataan bergaris/berwarna dalam ayat: (كَانَ المُعَلِّمُ <span class='text-amber-400'>مَاهِرًا</span>)?",
+                arabic: "كَانَ المُعَلِّمُ مَاهِرًا فِي شَرْحِهِ.",
+                options: [
+                    "مبتدأ مرفوع",
+                    "اسم كان مرفوع",
+                    "خبر كان منصوب",
+                    "فاعل مرفوع"
+                ],
+                correctIndex: 2,
+                correctedArabic: "كَانَ المُعَلِّمُ مَاهِرًا فِي شَرْحِهِ.",
+                explanation: "Perkataan 'مَاهِرًا' ialah Khabar Kana (خبر كان) dan hukumnya adalah Mansub (منصوب) dengan tanda Fathah."
+            },
+            {
+                id: 4,
+                level: "Sederhana",
+                mode: "mode1",
+                prompt: "Kenal pasti perkataan yang salah dalam struktur Jumlah Ismiyyah berikut:",
+                arabic: "المُسْلِمُونَ صَادِقِينَ فِي قَوْلِهِمْ.",
+                options: [
+                    "المُسْلِمُونَ",
+                    "صَادِقِينَ",
+                    "فِي",
+                    "قَوْلِهِمْ"
+                ],
+                correctIndex: 1,
+                correctedArabic: "المُسْلِمُونَ صَادِقُونَ فِي قَوْلِهِمْ.",
+                explanation: "Perkataan 'صَادِقُونَ' berperanan sebagai Khabar (خبر) dan wajib Marfu' (مرفوع) dengan tanda Waw (و) kerana ia Jamak Muzakkar Salim."
+            },
+            {
+                id: 5,
+                level: "Sederhana",
+                mode: "mode2",
+                prompt: "Pilih ayat yang tepat menggunakan Huruf Jar (حرف الجر):",
+                arabic: "Penggunaan huruf jar bersama Kata Nama:",
+                options: [
+                    "رَجَعَ الطَّالِبُ مِنَ المَدْرَسَةُ.",
+                    "رَجَعَ الطَّالِبُ مِنَ المَدْرَسَةِ.",
+                    "رَجَعَ الطَّالِبُ مِنَ المَدْرَسَةَ.",
+                    "رَجَعَ الطَّالِبُ مِنَ المَدْرَسَةٌ."
+                ],
+                correctIndex: 1,
+                correctedArabic: "رَجَعَ الطَّالِبُ مِنَ المَدْرَسَةِ.",
+                explanation: "Kata nama selepas Huruf Jar 'مِنْ' hendaklah Majrur (مجرور) dengan tanda Kasrah (المَدْرَسَةِ)."
+            },
+            {
+                id: 6,
+                level: "Sederhana",
+                mode: "mode3",
+                prompt: "Apakah hukum I'rab bagi Fi'il Mudhari' yang didahului oleh 'لَمْ' (أداة الجزم)?",
+                arabic: "لَمْ يَحْضُرْ زَيْدٌ أَمْسِ.",
+                options: [
+                    "مرفوع",
+                    "منصوب",
+                    "مجزوم",
+                    "مجرور"
+                ],
+                correctIndex: 2,
+                correctedArabic: "لَمْ يَحْضُرْ زَيْدٌ أَمْسِ.",
+                explanation: "'لَمْ' merupakan Harf Jazm (أداة الجزم) yang menyebabkan Fi'il Mudhari' selepasnya menjadi Majzum (مجزوم) dengan tanda Sukun."
+            },
+            {
+                id: 7,
+                level: "Sederhana",
+                mode: "mode1",
+                prompt: "Cari kesalahan pada Maf'ul Bihi (المفعول به) dalam ayat berikut:",
+                arabic: "قَرَأَ التِّلْمِيذُ الكِتَابُ المَفِيدَ.",
+                options: [
+                    "قَرَأَ",
+                    "التِّلْمِيذُ",
+                    "الكِتَابُ",
+                    "المَفِيدَ"
+                ],
+                correctIndex: 2,
+                correctedArabic: "قَرَأَ التِّلْمِيذُ الكِتَابَ المَفِيدَ.",
+                explanation: "'الكِتَابَ' ialah Objek / Maf'ul Bihi (مفعول به), maka hukumnya wajib Mansub (منصوب) dengan baris Fathah."
+            },
+            {
+                id: 8,
+                level: "Sederhana",
+                mode: "mode2",
+                prompt: "Pilih ayat yang mengandungi Na'at & Man'ut (النعث والمنعوت) yang betul dari segi I'rab:",
+                arabic: "Penggunaan Kata Sifat (Na'at):",
+                options: [
+                    "رَأَيْتُ طَالِبًا مُجْتَهِدٌ.",
+                    "رَأَيْتُ طَالِبًا مُجْتَهِدًا.",
+                    "رَأَيْتُ طَالِبًا مُجْتَهِدٍ.",
+                    "رَأَيْتُ طَالِبٌ مُجْتَهِدًا."
+                ],
+                correctIndex: 1,
+                correctedArabic: "رَأَيْتُ طَالِبًا مُجْتَهِدًا.",
+                explanation: "Na'at / Kata Sifat 'مُجْتَهِدًا' mesti mengikut tanda I'rab Man'ut 'طَالِبًا' iaitu Mansub dengan Fathah."
+            },
+            {
+                id: 9,
+                level: "Sederhana",
+                mode: "mode3",
+                prompt: "Apakah tanda I'rab bagi Muthanna (المثنى) semasa keadaan Marfu' (مرفوع)?",
+                arabic: "جَاءَ الطَّالِبَانِ الجَدِيدَانِ.",
+                options: [
+                    "Dammah (الضمة)",
+                    "Alif (الألف)",
+                    "Ya (الياء)",
+                    "Fathah (الفتحة)"
+                ],
+                correctIndex: 1,
+                correctedArabic: "جَاءَ الطَّالِبَانِ الجَدِيدَانِ.",
+                explanation: "Kata nama Muthanna (Dua) di-Marfu'-kan dengan huruf Alif (الألف)."
+            },
+            {
+                id: 10,
+                level: "Sederhana",
+                mode: "mode1",
+                prompt: "Cari kesalahan tatabahasa dalam struktur Idafi (التركيب الإضافي):",
+                arabic: "كِتَابُ الطَّالِبُ جَدِيدٌ.",
+                options: [
+                    "كِتَابُ",
+                    "الطَّالِبُ",
+                    "جَدِيدٌ",
+                    "Tiada kesalahan"
+                ],
+                correctIndex: 1,
+                correctedArabic: "كِتَابُ الطَّالِبِ جَدِيدٌ.",
+                explanation: "Perkataan 'الطَّالِبِ' berperanan sebagai Mudhaf Ilaih (مضاف إليه) dan hukumnya adalah Majrur (مجرور) dengan Kasrah."
+            },
+
+            // --- TAHAP SUKAR (10 Soalan) ---
+            {
+                id: 11,
+                level: "Sukar",
+                mode: "mode1",
+                prompt: "Kesan kesalahan pada kata larangan (لا الناهية) bersama Fi'il Mudhari':",
+                arabic: "لاَ تَكْتُبْ إِجَابَتَكَ بِالسُّرْعَةِ وَلاَ تَحْزَنُ.",
+                options: [
+                    "تَكْتُبْ",
+                    "إِجَابَتَكَ",
+                    "بِالسُّرْعَةِ",
+                    "تَحْزَنُ"
+                ],
+                correctIndex: 3,
+                correctedArabic: "لاَ تَكْتُبْ إِجَابَتَكَ بِالسُّرْعَةِ وَلاَ تَحْزَنْ.",
+                explanation: "'لاَ الناهية' menjazamkan Fi'il Mudhari', jadi hendaklah dibaca Sukun (تَحْزَنْ) bukannya Dammah."
+            },
+            {
+                id: 12,
+                level: "Sukar",
+                mode: "mode2",
+                prompt: "Pilih ayat yang tepat bagi gabungan (أنْ) Nasabah bersama Fi'il Mudhari':",
+                arabic: "Penggunaan 'أنْ' Harf Nasab:",
+                options: [
+                    "يُرِيدُ الخَادِمُ أَنْ يَرْجِعُ إِلَى بَيْتِهِ.",
+                    "يُرِيدُ الخَادِمُ أَنْ يَرْجِعَ إِلَى بَيْتِهِ.",
+                    "يُرِيدُ الخَادِمُ أَنْ يَرْجِعِ إِلَى بَيْتِهِ.",
+                    "يُرِيدُ الخَادِمُ أَنْ يَرْجِعْ إِلَى بَيْتِهِ."
+                ],
+                correctIndex: 1,
+                correctedArabic: "يُرِيدُ الخَادِمُ أَنْ يَرْجِعَ إِلَى بَيْتِهِ.",
+                explanation: "'أَنْ' menasabkan Fi'il Mudhari' di depannya dengan tanda Fathah (يَرْجِعَ)."
+            },
+            {
+                id: 13,
+                level: "Sukar",
+                mode: "mode3",
+                prompt: "Apakah I'rab bagi perkataan bergaris dalam ayat: (لَعَلَّ <span class='text-amber-400'>الفَرَجَ</span> قَرِيبٌ)?",
+                arabic: "لَعَلَّ الفَرَجَ قَرِيبٌ مِنَّا.",
+                options: [
+                    "اسم لعل منصوب بالفتحة",
+                    "خبر لعل مرفوع بالضمة",
+                    "مبتدأ مرفوع بالضمة",
+                    "فاعل منصوب بالفتحة"
+                ],
+                correctIndex: 0,
+                correctedArabic: "لَعَلَّ الفَرَجَ قَرِيبٌ مِنَّا.",
+                explanation: "'لَعَلَّ' ialah saudara Inna (أخوات إنَّ), maka perkataan selepasnya ialah Isim La'alla yang Mansub dengan Fathah."
+            },
+            {
+                id: 14,
+                level: "Sukar",
+                mode: "mode1",
+                prompt: "Cari kesalahan pada Bilangan dan Benda Ditunjuk (العدد والمعدود 3-10):",
+                arabic: "فِي الفَصْلِ ثَلاَثَةُ طَالِبٍ.",
+                options: [
+                    "فِي",
+                    "الفَصْلِ",
+                    "ثَلاَثَةُ",
+                    "طَالِبٍ"
+                ],
+                correctIndex: 3,
+                correctedArabic: "فِي الفَصْلِ ثَلاَثَةُ طُلاَّبٍ.",
+                explanation: "Nombor 3 hingga 10 memerlukan Ma'dud (المعدود) dalam bentuk Jamak Majrur (طُلاَّبٍ)."
+            },
+            {
+                id: 15,
+                level: "Sukar",
+                mode: "mode2",
+                prompt: "Pilih ayat Jamak Muannath Salim (جمع المؤنث السالم) yang betul I'rabnya sebagai Maf'ul Bihi:",
+                arabic: "I'rab Jamak Muannath Salim dalam keadaan Mansub:",
+                options: [
+                    "شَكَرَ المُدِيرُ المُمَرِّضَاتِ.",
+                    "شَكَرَ المُدِيرُ المُمَرِّضَاتُ.",
+                    "شَكَرَ المُدِيرُ المُمَرِّضَاتَيْنِ.",
+                    "شَكَرَ المُدِيرُ المُمَرِّضَاتَ."
+                ],
+                correctIndex: 0,
+                correctedArabic: "شَكَرَ المُدِيرُ المُمَرِّضَاتِ.",
+                explanation: "Jamak Muannath Salim di-Mansub-kan dengan tanda Kasrah (الكسرة) bukannya Fathah."
+            },
+            {
+                id: 16,
+                level: "Sukar",
+                mode: "mode3",
+                prompt: "Apakah I'rab bagi perkataan bergaris: (لَمْ <span class='text-amber-400'>يَكْتُبُوا</span> دُرُوسَهُمْ)?",
+                arabic: "الطُّلاَّبُ لَمْ يَكْتُبُوا دُرُوسَهُمْ.",
+                options: [
+                    "فعل مضارع مجزوم بحذف النون",
+                    "فعل مضارع مرفوع بثبوت النون",
+                    "فعل مضارع منصوب بالفتحة",
+                    "فعل ماض مبني على السكون"
+                ],
+                correctIndex: 0,
+                correctedArabic: "الطُّلاَّبُ لَمْ يَكْتُبُوا دُرُوسَهُمْ.",
+                explanation: "Fi'il Mudhari' Af'alul Khamsah di-Jazam-kan dengan membuang huruf Nun (حذف النون)."
+            },
+            {
+                id: 17,
+                level: "Sukar",
+                mode: "mode1",
+                prompt: "Cari kesalahan penggunaan Kata Kerja bersama Fa'il Muthanna (الفاعل المثنى):",
+                arabic: "سَافَرَا الصَّدِيقَانِ إِلَى مَكَّةَ.",
+                options: [
+                    "سَافَرَا",
+                    "الصَّدِيقَانِ",
+                    "إِلَى",
+                    "مَكَّةَ"
+                ],
+                correctIndex: 0,
+                correctedArabic: "سَافَرَ الصَّدِيقَانِ إِلَى مَكَّةَ.",
+                explanation: "Kata kerja di awal ayat (الجملة الفعلية) wajib kekal dalam bentuk Mufrad (Tunggal) walaupun Fa'ilnya Muthanna/Jamak."
+            },
+            {
+                id: 18,
+                level: "Sukar",
+                mode: "mode2",
+                prompt: "Pilih ayat yang betul bagi penggunaan 'كَي' (أداة النصب):",
+                arabic: "Penggunaan 'كي' untuk tujuan/alasan:",
+                options: [
+                    "أَدْرُسُ بِجِدٍّ كَيْ أَنْجَحُ فِي الإِمْتِحَانِ.",
+                    "أَدْرُسُ بِجِدٍّ كَيْ أَنْجَحَ فِي الإِمْتِحَانِ.",
+                    "أَدْرُسُ بِجِدٍّ كَيْ أَنْجَحْ فِي الإِمْتِحَانِ.",
+                    "أَدْرُسُ بِجِدٍّ كَيْ أَنْجَحِ فِي الإِمْتِحَانِ."
+                ],
+                correctIndex: 1,
+                correctedArabic: "أَدْرُسُ بِجِدٍّ كَيْ أَنْجَحَ فِي الإِمْتِحَانِ.",
+                explanation: "'كَيْ' menasabkan Fi'il Mudhari' dengan baris Fathah (أَنْجَحَ)."
+            },
+            {
+                id: 19,
+                level: "Sukar",
+                mode: "mode3",
+                prompt: "Apakah I'rab perkataan 'المُجْتَهِدُونَ' dalam: (أَصْبَحَ الطُّلاَّبُ <span class='text-amber-400'>مُجْتَهِدِينَ</span>)?",
+                arabic: "أَصْبَحَ الطُّلاَّبُ مُجْتَهِدِينَ فِي عَمَلِهِمْ.",
+                options: [
+                    "خبر أصبح منصوب بالياء",
+                    "اسم أصبح مرفوع بالواو",
+                    "مفعول به منصوب بالفتحة",
+                    "نعت منصوب بالكسرة"
+                ],
+                correctIndex: 0,
+                correctedArabic: "أَصْبَحَ الطُّلاَّبُ مُجْتَهِدِينَ فِي عَمَلِهِمْ.",
+                explanation: "'مُجْتَهِدِينَ' ialah Khabar Asbaha (saudara Kana), hukumnya Mansub dengan tanda Ya (الياء) kerana Jamak Muzakkar Salim."
+            },
+            {
+                id: 20,
+                level: "Sukar",
+                mode: "mode1",
+                prompt: "Cari kesalahan pada Dhomir / Kata Ganti Nama bagi ayat berikut:",
+                arabic: "الطَّالِبَاتُ يَذْهَبُونَ إِلَى المَكْتَبَةِ.",
+                options: [
+                    "الطَّالِبَاتُ",
+                    "يَذْهَبُونَ",
+                    "إِلَى",
+                    "المَكْتَبَةِ"
+                ],
+                correctIndex: 1,
+                correctedArabic: "الطَّالِبَاتُ يَذْهَبْنَ إِلَى المَكْتَبَةِ.",
+                explanation: "Untuk kata ganti Jamak Muannath (الطَّالِبَاتُ), fi'il mudhari' mestilah disambung dengan Nun Niswah (يَذْهَبْنَ)."
+            },
+
+            // --- TAHAP PAKAR / DETEKTIF GENIUS (10 Soalan) ---
+            {
+                id: 21,
+                level: "Pakar",
+                mode: "mode4",
+                prompt: "[Detektif Genius] Kenal pasti kesalahan nahu kompleks dalam ayat berikut:",
+                arabic: "إنَّ فِي المَدْرَسَةِ مُعَلِّمُونَ نَشِيطُونَ.",
+                options: [
+                    "إنَّ",
+                    "فِي المَدْرَسَةِ",
+                    "مُعَلِّمُونَ",
+                    "نَشِيطُونَ"
+                ],
+                correctIndex: 2,
+                correctedArabic: "إنَّ فِي المَدْرَسَةِ مُعَلِّمِينَ نَشِيطُونَ.",
+                explanation: "'مُعَلِّمِينَ' ialah Isim Inna Mu'akhkhar (اسم إن مؤخر) dan wajib Mansub dengan tanda Ya (الياء)."
+            },
+            {
+                id: 22,
+                level: "Pakar",
+                mode: "mode4",
+                prompt: "[Detektif Genius] Pilih pembetulan lengkap bagi ayat yang mengandungi kesalahan bertumpuk ini:",
+                arabic: "لَمْ يَحْضُرُونَ الطُّلاَّبُ الجَدِيدَةُ.",
+                options: [
+                    "لَمْ يَحْضُرِ الطُّلاَّبُ الجُدُدُ.",
+                    "لَمْ يَحْضُرُونَ الطُّلاَّبُ الجُدُدُ.",
+                    "لَمْ يَحْضُرُوا الطُّلاَّبُ الجَدِيدُ.",
+                    "لَمْ يَحْضُرَ الطُّلاَّبَ الجُدُدَ."
+                ],
+                correctIndex: 0,
+                correctedArabic: "لَمْ يَحْضُرِ الطُّلاَّبُ الجُدُدُ.",
+                explanation: "Fi'il awal mesti Mufrad & Majzum (يَحْضُرْ -> dibaca kasrah kerana bertemu sukun), 'الطُّلاَّبُ' ialah Jamak Taksir Muzakkar, dan sifatnya 'الجُدُدُ'."
+            },
+            {
+                id: 23,
+                level: "Pakar",
+                mode: "mode3",
+                prompt: "[Detektif Genius] Apakah I'rab bagi perkataan 'أَبُوكَ' dalam ayat: (Lَكَنَّ <span class='text-amber-400'>أَبَاكَ</span> عَالِمٌ)?",
+                arabic: "لَكِنَّ أَبَاكَ عَالِمٌ كَبِيرٌ.",
+                options: [
+                    "اسم لكن منصوب بالألف لأنه من الأسماء الخمسة",
+                    "خبر لكن مرفوع بالضمة",
+                    "فاعل مرفوع بالألف",
+                    "مضاف إليه مجرور بالألف"
+                ],
+                correctIndex: 0,
+                correctedArabic: "لَكِنَّ أَبَاكَ عَالِمٌ كَبِيرٌ.",
+                explanation: "'أَبَاكَ' ialah Isim Lakinna (saudara Inna), Mansub dengan tanda Alif (الألف) kerana ia Asma'ul Khamsah."
+            },
+            {
+                id: 24,
+                level: "Pakar",
+                mode: "mode4",
+                prompt: "[Detektif Genius] Cari kesalahan pada bentuk Isim Maf'ul / Soraf atau Harf Jar:",
+                arabic: "مَرَرْتُ بِالمُعَلِّمُونَ فِي المَيْدَانِ.",
+                options: [
+                    "مَرَرْتُ",
+                    "بِالمُعَلِّمُونَ",
+                    "فِي",
+                    "المَيْدَانِ"
+                ],
+                correctIndex: 1,
+                correctedArabic: "مَرَرْتُ بِالمُعَلِّمِينَ فِي المَيْدَانِ.",
+                explanation: "Huruf 'بـ' ialah Huruf Jar, menyebabkan Jamak Muzakkar Salim menjadi Majrur dengan tanda Ya (بِالمُعَلِّمِينَ)."
+            },
+            {
+                id: 25,
+                level: "Pakar",
+                mode: "mode4",
+                prompt: "[Detektif Genius] Tentukan pembetulan struktur bilangan bagi (12 buah buku):",
+                arabic: "قَرَأْتُ اِثْنَا عَشَرَ كِتَابًا.",
+                options: [
+                    "قَرَأْتُ اِثْنَيْ عَشَرَ كِتَابًا.",
+                    "قَرَأْتُ اِثْنَا عَشَرَةَ كِتَابًا.",
+                    "قَرَأْتُ اِثْنَتَا عَشْرَةَ كِتَابًا.",
+                    "قَرَأْتُ اِثْنَيْ عَشْرَةَ كِتَابٍ."
+                ],
+                correctIndex: 0,
+                correctedArabic: "قَرَأْتُ اِثْنَيْ عَشَرَ كِتَابًا.",
+                explanation: "Oleh kerana ia berperanan sebagai Maf'ul Bihi, nombor 12 Muzakkar di-Mansub-kan menjadi 'اِثْنَيْ عَشَرَ'."
+            },
+            {
+                id: 26,
+                level: "Pakar",
+                mode: "mode3",
+                prompt: "[Detektif Genius] Tentukan I'rab bagi Fi'il Mudhari' yang disambung dengan Lam al-Amr (لام الأمر):",
+                arabic: "لِتَكْتُبْ دَرْسَكَ بِعِنَايَةٍ.",
+                options: [
+                    "فعل مضارع مجزوم بلام الأمر وعلامة جزمها السكون",
+                    "فعل مضارع منصوب بلام التعليل",
+                    "فعل أمر مبني على السكون",
+                    "فعل مضارع مرفوع بالضمة"
+                ],
+                correctIndex: 0,
+                correctedArabic: "لِتَكْتُبْ دَرْسَكَ بِعِنَايَةٍ.",
+                explanation: "Huruf 'لِـ' di sini ialah Lam al-Amr (kata perintah), yang menjazamkan Fi'il Mudhari' dengan tanda Sukun."
+            },
+            {
+                id: 27,
+                level: "Pakar",
+                mode: "mode4",
+                prompt: "[Detektif Genius] Cari kesalahan dalam syarat Maf'ul Bihi Muthanna:",
+                arabic: "اشْتَرَى أَبِي كِتَابَانِ جَدِيدَيْنِ.",
+                options: [
+                    "اشْتَرَى",
+                    "أَبِي",
+                    "كِتَابَانِ",
+                    "جَدِيدَيْنِ"
+                ],
+                correctIndex: 2,
+                correctedArabic: "اشْتَرَى أَبِي كِتَابَيْنِ جَدِيدَيْنِ.",
+                explanation: "'كِتَابَيْنِ' ialah Maf'ul Bihi (Mansub), maka tanda I'rab bagi Muthanna mestilah menggunakan Ya (الياء)."
+            },
+            {
+                id: 28,
+                level: "Pakar",
+                mode: "mode4",
+                prompt: "[Detektif Genius] Pilih ayat yang mengandungi struktur Na'at Majrur yang betul:",
+                arabic: "Struktur Na'at Majrur bersama Jamak Taksir:",
+                options: [
+                    "سَلَّمْتُ عَلَى رِجَالٍ كُرَمَاءِ.",
+                    "سَلَّمْتُ عَلَى رِجَالٍ كِرَامٍ.",
+                    "سَلَّمْتُ عَلَى رِجَالٌ كِرَامٌ.",
+                    "سَلَّمْتُ عَلَى رِجَالاً كِرَامًا."
+                ],
+                correctIndex: 1,
+                correctedArabic: "سَلَّمْتُ عَلَى رِجَالٍ كِرَامٍ.",
+                explanation: "Man'ut 'رِجَالٍ' Majrur dengan Tanwin Kasrah, maka Na'at 'كِرَامٍ' mengikut tanda Kasrah."
+            },
+            {
+                id: 29,
+                level: "Pakar",
+                mode: "mode3",
+                prompt: "[Detektif Genius] Tentukan I'rab perkataan 'المُدَرِّسَاتُ' dalam: (مَا زَالَتِ <span class='text-amber-400'>المُدَرِّسَاتُ</span> مُجْتَهِدَاتٍ)?",
+                arabic: "مَا زَالَتِ المُدَرِّسَاتُ مُجْتَهِدَاتٍ.",
+                options: [
+                    "اسم ما زال مرفوع بالضمة",
+                    "خبر ما زال منصوب بالكسرة",
+                    "فاعل مرفوع بالضمة",
+                    "مبتدأ مرفوع بالضمة"
+                ],
+                correctIndex: 0,
+                correctedArabic: "مَا زَالَتِ المُدَرِّسَاتُ مُجْتَهِدَاتٍ.",
+                explanation: "'مَا زَالَ' ialah saudara Kana (أخوات كان). Perkataan 'المُدَرِّسَاتُ' ialah Isim Ma Zala yang Marfu' dengan Dammah."
+            },
+            {
+                id: 30,
+                level: "Pakar",
+                mode: "mode4",
+                prompt: "[Detektif Genius] Analisis kesalahan dalam gabungan Mudhaf & Alif Lam (الـ):",
+                arabic: "هَذَا هُوَ التَّلْمِيذُ الكِتَابِ.",
+                options: [
+                    "هَذَا",
+                    "هُوَ",
+                    "التَّلْمِيذُ",
+                    "الكِتَابِ"
+                ],
+                correctIndex: 2,
+                correctedArabic: "هَذَا هُوَ كِتَابُ التَّلْمِيذِ.",
+                explanation: "Mudhaf (كِتَابُ) tidak boleh mempunyai Alif Lam (الـ) dan tidak boleh bertanwin."
+            }
+        ];
+
+        /* ==========================================================================
+           GAME STATE VARIABLES
+           ========================================================================== */
+        let playerName = "Detektif";
+        let currentQuestions = [];
+        let currentIndex = 0;
+        let score = 0;
+        let lives = 3;
+        let timer = null;
+        let timeLeft = 25;
+        let correctAnswersCount = 0;
+        const TIMER_DEFAULT = 25;
+
+        // Web Audio API for simple Sound Effects
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playSound(type) {
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'correct') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+                    osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.1); // A5
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.3);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, audioCtx.currentTime); // A3
+                    osc.frequency.setValueAtTime(146.83, audioCtx.currentTime + 0.15); // D3
+                    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.4);
+                } else if (type === 'click') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.05);
+                }
+            } catch (e) {
+                console.log("Audio play error:", e);
+            }
+        }
+
+        /* ==========================================================================
+           SCREEN NAVIGATION
+           ========================================================================== */
+        function showScreen(screenId) {
+            playSound('click');
+            const screens = ['screen-start', 'screen-mode', 'screen-game', 'screen-result'];
+            screens.forEach(id => {
+                const el = document.getElementById(id);
+                if (id === screenId) {
+                    el.classList.remove('hidden');
+                    el.classList.add('flex');
+                } else {
+                    el.classList.add('hidden');
+                    el.classList.remove('flex');
+                }
+            });
+        }
+
+        function startGameModeSelection() {
+            const input = document.getElementById('player-name').value.trim();
+            if (input !== "") {
+                playerName = input;
+            } else {
+                playerName = "Detektif Muda";
+            }
+            document.getElementById('hud-name').innerText = playerName;
+            showScreen('screen-mode');
+        }
+
+        /* ==========================================================================
+           GAME LOGIC & TIMERS
+           ========================================================================== */
+        function selectMode(modeKey) {
+            playSound('click');
+            // Filter questions based on mode or all
+            if (modeKey === 'mode4') {
+                currentQuestions = [...questionBank];
+            } else {
+                currentQuestions = questionBank.filter(q => q.mode === modeKey);
+                // If filter is small, backfill with random questions
+                if (currentQuestions.length < 10) {
+                    const remaining = questionBank.filter(q => q.mode !== modeKey);
+                    currentQuestions = [...currentQuestions, ...remaining.slice(0, 10 - currentQuestions.length)];
+                }
+            }
+
+            // Shuffle questions
+            currentQuestions = currentQuestions.sort(() => Math.random() - 0.5);
+            
+            // Reset state
+            currentIndex = 0;
+            score = 0;
+            lives = 3;
+            correctAnswersCount = 0;
+            
+            updateHUD();
+            showScreen('screen-game');
+            loadQuestion();
+        }
+
+        function updateHUD() {
+            document.getElementById('hud-score').innerText = score;
+            
+            // Hearts
+            const heartsContainer = document.getElementById('hud-lives');
+            heartsContainer.innerHTML = '';
+            for (let i = 0; i < 3; i++) {
+                if (i < lives) {
+                    heartsContainer.innerHTML += `<i class="fa-solid fa-heart text-red-500"></i>`;
+                } else {
+                    heartsContainer.innerHTML += `<i class="fa-regular fa-heart text-slate-600"></i>`;
+                }
+            }
+
+            // Progress
+            const progressPct = ((currentIndex) / currentQuestions.length) * 100;
+            document.getElementById('game-progress').style.width = `${progressPct}%`;
+        }
+
+        function startTimer() {
+            clearInterval(timer);
+            timeLeft = TIMER_DEFAULT;
+            document.getElementById('hud-timer').innerText = `${timeLeft}s`;
+            
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('hud-timer').innerText = `${timeLeft}s`;
+                
+                if (timeLeft <= 5) {
+                    document.getElementById('hud-timer').classList.add('text-red-500', 'animate-pulse');
+                } else {
+                    document.getElementById('hud-timer').classList.remove('text-red-500', 'animate-pulse');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            playSound('wrong');
+            lives--;
+            updateHUD();
+            
+            const q = currentQuestions[currentIndex];
+            showFeedback(false, q, "Masa telah tamat! Sentiasa bertindak pantas dalam penyiasatan.");
+
+            if (lives <= 0) {
+                // Game Over state triggers on closing modal
+            }
+        }
+
+        /* ==========================================================================
+           QUESTION RENDERING & USER INTERACTION
+           ========================================================================== */
+        function loadQuestion() {
+            if (currentIndex >= currentQuestions.length || lives <= 0) {
+                endGame();
+                return;
+            }
+
+            const q = currentQuestions[currentIndex];
+            
+            // Question HUD Info
+            document.getElementById('question-number').innerText = `Soalan ${currentIndex + 1} / ${currentQuestions.length}`;
+            document.getElementById('question-level').innerText = `Tahap: ${q.level}`;
+            document.getElementById('question-prompt').innerText = q.prompt;
+            document.getElementById('question-arabic').innerHTML = q.arabic;
+
+            // Render options
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            const optionLabels = ['A', 'B', 'C', 'D'];
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "group w-full p-4 bg-slate-800/90 hover:bg-slate-700/90 border-2 border-slate-700 hover:border-amber-400 rounded-2xl text-right transition-all duration-200 flex items-center justify-between shadow-md active:scale-[0.98]";
+                btn.onclick = () => checkAnswer(idx);
+
+                btn.innerHTML = `
+                    <div class="flex items-center space-x-3 space-x-reverse w-full">
+                        <span class="w-8 h-8 flex items-center justify-center bg-slate-900 border border-slate-700 group-hover:border-amber-400 text-amber-400 font-bold rounded-xl text-xs sm:text-sm">
+                            ${optionLabels[idx]}
+                        </span>
+                        <span class="arabic-text text-lg sm:text-xl font-bold text-white flex-1 text-right leading-relaxed">${opt}</span>
+                    </div>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            startTimer();
+        }
+
+        function checkAnswer(selectedIndex) {
+            clearInterval(timer);
+            const q = currentQuestions[currentIndex];
+
+            if (selectedIndex === q.correctIndex) {
+                playSound('correct');
+                correctAnswersCount++;
+                
+                // Score calculation: base 100 + speed bonus
+                const speedBonus = timeLeft * 4;
+                const pointsGained = 100 + speedBonus;
+                score += pointsGained;
+                
+                updateHUD();
+                showFeedback(true, q, q.explanation);
+            } else {
+                playSound('wrong');
+                lives--;
+                updateHUD();
+                showFeedback(false, q, q.explanation);
+            }
+        }
+
+        /* ==========================================================================
+           FEEDBACK MODAL
+           ========================================================================== */
+        function showFeedback(isCorrect, q, expText) {
+            const modal = document.getElementById('feedback-modal');
+            const iconBg = document.getElementById('feedback-icon-container');
+            const icon = document.getElementById('feedback-icon');
+            const title = document.getElementById('feedback-title');
+            const subtitle = document.getElementById('feedback-subtitle');
+            
+            if (isCorrect) {
+                iconBg.className = "w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl bg-emerald-500/20 text-emerald-400 border-2 border-emerald-500/50 shadow-lg shadow-emerald-500/20";
+                icon.className = "fa-solid fa-check text-4xl";
+                title.innerText = "TEPAT SEKALI!";
+                title.className = "text-2xl font-black text-emerald-400 mb-1";
+                subtitle.innerText = "BUKTI TATABAHASA SAHIH";
+            } else {
+                iconBg.className = "w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl bg-red-500/20 text-red-400 border-2 border-red-500/50 shadow-lg shadow-red-500/20";
+                icon.className = "fa-solid fa-xmark text-4xl";
+                title.innerText = "KURANG TEPAT!";
+                title.className = "text-2xl font-black text-red-400 mb-1";
+                subtitle.innerText = "KESALAHAN DIKESAN";
+            }
+
+            document.getElementById('feedback-corrected').innerHTML = q.correctedArabic;
+            document.getElementById('feedback-explanation').innerText = expText;
+
+            modal.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            playSound('click');
+            document.getElementById('feedback-modal').classList.add('hidden');
+
+            if (lives <= 0) {
+                endGame();
+            } else {
+                currentIndex++;
+                loadQuestion();
+            }
+        }
+
+        /* ==========================================================================
+           END GAME & BADGES
+           ========================================================================== */
+        function endGame() {
+            clearInterval(timer);
+            showScreen('screen-result');
+
+            const total = currentQuestions.length;
+            const accuracy = Math.round((correctAnswersCount / (currentIndex || 1)) * 100);
+
+            document.getElementById('result-player-name').innerHTML = `Hasil Siasatan untuk Detektif <span class="font-bold text-amber-400">${playerName}</span>`;
+            document.getElementById('result-score').innerText = score;
+            document.getElementById('result-accuracy').innerText = `${accuracy}%`;
+            document.getElementById('result-correct').innerText = `${correctAnswersCount}/${total}`;
+
+            // Determine Badge
+            const badgeTitle = document.getElementById('result-badge-title');
+            const badgeIcon = document.getElementById('badge-icon');
+            const badgeBg = document.getElementById('badge-icon-bg');
+
+            if (accuracy >= 85 && score >= 1200) {
+                badgeTitle.innerText = "محقق عبقري (Detektif Genius)";
+                badgeIcon.className = "fa-solid fa-crown text-4xl text-slate-950";
+                badgeBg.className = "w-24 h-24 bg-gradient-to-tr from-amber-400 to-yellow-300 rounded-full flex items-center justify-center shadow-xl mb-4 ring-8 ring-amber-500/30 pulse-gold";
+                triggerConfetti();
+            } else if (accuracy >= 60) {
+                badgeTitle.innerText = "خبير النحو (Pakar Nahu)";
+                badgeIcon.className = "fa-solid fa-award text-4xl text-slate-950";
+                badgeBg.className = "w-24 h-24 bg-gradient-to-tr from-cyan-400 to-blue-500 rounded-full flex items-center justify-center shadow-xl mb-4 ring-8 ring-cyan-500/30";
+            } else {
+                badgeTitle.innerText = "مبتدئ (Detektif Novis)";
+                badgeIcon.className = "fa-solid fa-user-shield text-4xl text-slate-950";
+                badgeBg.className = "w-24 h-24 bg-gradient-to-tr from-slate-400 to-slate-600 rounded-full flex items-center justify-center shadow-xl mb-4 ring-8 ring-slate-500/30";
+            }
+        }
+
+        function restartGame() {
+            selectMode('mode4');
+        }
+
+        /* Confetti Effect for High Score */
+        function triggerConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const pieces = [];
+            const colors = ['#f59e0b', '#fbbf24', '#06b6d4', '#10b981', '#ef4444'];
+
+            for (let i = 0; i < 100; i++) {
+                pieces.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 8 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speed: Math.random() * 3 + 2,
+                    angle: Math.random() * 360
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach(p => {
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.angle);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+
+                    p.y += p.speed;
+                    p.angle += 0.05;
+
+                    if (p.y > canvas.height) {
+                        p.y = -20;
+                    }
+                });
+            }
+
+            let animationFrame;
+            let frames = 0;
+            function loop() {
+                draw();
+                frames++;
+                if (frames < 200) {
+                    animationFrame = requestAnimationFrame(loop);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            loop();
+        }
+
+        // Initialize on Load
+        window.onload = function() {
+            console.log("Detektif Bahasa Arab Ready.");
+        };
+    </script>
+</body>
+</html>
